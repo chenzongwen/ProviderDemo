@@ -4,18 +4,22 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -51,6 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.insert).setOnClickListener(this);
         findViewById(R.id.update).setOnClickListener(this);
         findViewById(R.id.delete).setOnClickListener(this);
+        findViewById(R.id.sp).setOnClickListener(this);
     }
 
     @Override
@@ -71,6 +76,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.delete:
                 delete();
                 break;
+            case R.id.sp:
+                insertSp();
             default:
                 //do nothing
         }
@@ -104,6 +111,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
             resolver.insert(PERSON_ALL_URI, values);
         }
     }
+
+    private void insertSp() {
+            SharedPreferences pref = MainActivity.this.getSharedPreferences("owen",MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("isFirstInput", true);
+            editor.putString("age","18");
+            editor.putString("name","owen");
+            editor.commit();
+    }
+
 
     /**
      * 查询所有记录
